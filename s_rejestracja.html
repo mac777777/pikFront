@@ -1,0 +1,18 @@
+<div data-ng-controller="kontrolerRejestracja">
+    <br><br>
+    <center>Rejestracja:</center>
+    
+    {{zalogowany}}
+
+    <form action=""><center>
+      <br><br>Login: <input style="width: 500px; margin:auto;border:0px;height: 40px; text-align:center;" type="text" ng-model="login">
+      <br>Hasło: <input style="width: 500px; margin:auto;border:0px;height: 40px;text-align:center;" type="password" ng-model="pswd1">
+      <br>Powtórz hasło: <input style="width: 500px; margin:auto;border:0px;height: 40px;text-align:center;" type="password" ng-model="pswd2">
+      <br><br><input style="width: 500px; border:0px;height: 40px;" type="submit" value="Ok" ng-click="zarejestruj();"></center><br><br>
+    </form>
+    
+    <center>Już masz konto? <a href="#!">Zaloguj się!</a></center>
+    <br><br>
+
+    {{msg}}
+</div>

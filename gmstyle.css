@@ -1,0 +1,14 @@
+        .map_canvas {
+            width: 950px;
+            
+            margin: 0px;
+             position: relative;
+        }
+
+        .angular-google-map-container {
+            position: absolute;
+            top: 0;
+            bottom: 400px;
+            right: 0;
+            left: 50px;
+        }
