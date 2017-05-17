@@ -110,6 +110,7 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
     $scope.marker2[newid]= {
       id:newid+1,
       name: "Aktualna lokalizacja",
+      date: "[teraz]",
       coords: {
         latitude:position.coords.latitude,
         longitude:position.coords.longitude
