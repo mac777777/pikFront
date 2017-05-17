@@ -18,7 +18,7 @@ apka.config(
 apka.controller('mainCtrl', function($scope, $cookies,$http) {
   $scope.map = {center: {latitude: 52.23, longitude: 21.01 }, zoom: 12 };
   $scope.lati="Punkt";
-  $scope.long="nieznany";
+  $scope.long="nieznany - nie udostępniono informacji o położeniu";
   $scope.buttonDisabled=1;
   
   var obj;
@@ -121,7 +121,7 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
     $scope.$apply(); //odswiezenie angulara
   }
     
-  $scope.msg="Nie dodalem";  
+  $scope.msg="";  
 
     
   $scope.dodaj = function() {
