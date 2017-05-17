@@ -1,5 +1,12 @@
 var apka = angular.module('apka', ['ngRoute','ngCookies','uiGmapgoogle-maps']);
 
+apka.config(
+    ['uiGmapGoogleMapApiProvider', function(GoogleMapApiProviders) {
+        GoogleMapApiProviders.configure({
+            key: 'AIzaSyDX1wDnU65Eq_WKGLh7EbzBP4lNvg5iIKQ'
+        });
+        }
+    ]);
 
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -8,11 +15,17 @@ var apka = angular.module('apka', ['ngRoute','ngCookies','uiGmapgoogle-maps']);
 
 
 
-apka.controller('mainCtrl', function($scope) {
+apka.controller('mainCtrl', function($scope, $cookies,$http) {
   $scope.map = {center: {latitude: 52.23, longitude: 21.01 }, zoom: 12 };
   $scope.lati="Punkt";
   $scope.long="nieznany";
   $scope.buttonDisabled=1;
+  
+  var obj;
+  
+  //$scope.msg="";
+  $scope.msgload="";
+  $scope.point="-";
     
   $scope.marker = [ //jakies pierwsze przykladowe punkty
     {
@@ -34,7 +47,51 @@ apka.controller('mainCtrl', function($scope) {
       options: { draggable: false },
     }
   ];
+  
+  $scope.marker2 = [];
+  
+  function loadPoints() {
+ 
+  
+   var result = $http.get("http://45.76.87.200/get/points");
+    result.then(function successCallback(response) {
+
+      //$scope.msgload=response;
+     
+      for (i = 0; i < response.data.length; i++) {
+      
+        $scope.marker2[i]={
+          id:response.data[i].id,
+          name:response.data[i].name,
+          coords: {
+            latitude: response.data[i].latitude,
+            longitude: response.data[i].longitude
+          },
+          events: {
+            click: function(marker, eventName, model) {
+              $scope.point=model.name;
+            }
+          },
+          options: {
+          draggable:false,
+          }
+        };
+        
+      }
+      
+      $scope.$apply();
+      
     
+      }, function errorCallback(response) {
+        $scope.msgload="Problem z polaczeniem z serwerem.";
+      });
+    
+    }
+    
+    window.onload = loadPoints();
+
+  
+
        
   if (navigator.geolocation) { //proba geolokalizacji
     navigator.geolocation.getCurrentPosition(showPosition); //jesli sie udalo - uruchamia funkcje showPosition
@@ -44,35 +101,43 @@ apka.controller('mainCtrl', function($scope) {
     $scope.buttonDisabled=0;
     $scope.lati=position.coords.latitude;
     $scope.long=position.coords.longitude;
+    
+      var newid=$scope.marker2.length;
       
-    $scope.marker[2]= {
-      id:99,
+    $scope.marker2[newid]= {
+      id:newid+1,
       name: "Aktualna lokalizacja",
       coords: {
         latitude:position.coords.latitude,
         longitude:position.coords.longitude
       },
-      icon: "http://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png", //na razie nie dziala
-      options: {draggable:false },
+      //icon: "http://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png", //na razie nie dziala
+      options: {draggable:false,
+      icon:'marker.png'
+      },
         
     };
       
     $scope.$apply(); //odswiezenie angulara
   }
     
+  $scope.msg="Nie dodalem";  
 
     
   $scope.dodaj = function() {
-    var url="http://45.76.87.200/add/user/points?latitude="+$scope.lati+"&logitute"+$scope.long+"&name="+ $scope.nazwa;
-    alert(url);
-    
-    var res = $http.get(url);
-    res.then(function successCallback(response) {
-      $scope.msg="Dodano punkt";
-    
-    }, function errorCallback(response) {
-      $scope.msg="Nie dodano punktu";
+    var url3="http://45.76.87.200/add/user/points?latitude="+$scope.lati+"&longitude="+$scope.long+"&name="+ $scope.nazwa+"&login="+$cookies.login+"&jsonp=JSON_CALLBACK";
+        $http({
+      method: 'GET',
+      url: url3,
+      withCredentials: true
+      }).then(function successCallback(response) { //sukces
+          $scope.msg="Punkt zostal dodany!";
+          loadPoints();
+      }, function errorCallback(response) { //porazka
+        $scope.msg="Wystapil blad!";
     });
+  
+  
   }
  
         
@@ -160,6 +225,9 @@ function fKontrolerMapa($scope,$http,$cookies,$location) {
   
 
   $scope.wyloguj = function() {
+  
+    var url="http://45.76.87.200/logout/user?login="+$scope.login;
+    var res = $http.get(url);
     $cookies.log = 0;
     $cookies.login="";
     $location.path('zaloguj');

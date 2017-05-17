@@ -6,29 +6,45 @@
 
     <a ng-click="wyloguj();">Wyloguj się</a>
     
-    <br><br>
+    <br /><br />
                 
     <div class="map_canvas" ng-controller="mainCtrl"> <!--podlaczenie do kontrolera-->
-      <ui-gmap-google-map center="map.center" zoom="map.zoom"> <!--glowny obiekt mapy-->
-        <ui-gmap-marker ng-repeat="m in marker" coords="m.coords" options="m.options" events="m.events" idkey="m.id"></ui-gmap-marker> <!-- markery -->
+    
+   
+          <ui-gmap-google-map center="map.center" zoom="map.zoom"> <!--glowny obiekt mapy-->
+          
+            <ui-gmap-markers models="marker2"
+                             coords="'coords'"
+                             events="markersEvents"
+                             options="'options'">
+            </ui-gmap-markers>
+
       </ui-gmap-google-map>
     
+    
       <div style="width:100%; height:600px"></div>
+      
+      Ostatnio kliknięty punkt: {{point}}<br><br>
     
-      <b>Aktualnie wyświetlane punkty:</b><br>
-      <div ng-repeat="m in marker"> <!-- wypisuje ze zmiennej $scope.marker-->
-        id: {{m.id}}, nazwa: {{m.name}}, współrzędne: ({{m.coords.latitude}},{{m.coords.longitude}})
+      <b>Aktualnie wyświetlane punkty:</b><br />
+      <div ng-repeat="m in marker2"> <!-- wypisuje ze zmiennej $scope.marker2-->
+        {{m.name}} ({{m.coords.latitude}},{{m.coords.longitude}})
       </div>
+     <br /><br />
+      
+      {{msgload}}
     
-      <br><br>
+      <br /><br />
     
       <center><fieldset style="border:white 1px solid; width:450px"><legend>Aktualna lokalizacja</legend>
         {{lati}} {{long}}
         <form action=""> <!--formularz do dodania nowego punktu -->
           Nazwa:
-          <input style="width: 400px; margin:auto;border:0px;height: 40px; text-align:center;" type="text" ng-model="nazwa"><br>
-          <input style="width: 400px; border:0px;height: 40px;" type="submit" value="Ok" ng-click="dodaj()" ng-disabled="buttonDisabled"> <!-- przycisk nieaktywny dopoki geolokalizacja nie wlaczona -->
-        </form><br>
+          <input style="width: 400px; margin:auto;border:0px;height: 40px; text-align:center;" type="text" ng-model="nazwa" /><br>
+          <input style="width: 400px; border:0px;height: 40px;" type="submit" value="Ok" ng-click="dodaj()" ng-disabled="buttonDisabled" /> <!-- przycisk nieaktywny dopoki geolokalizacja nie wlaczona -->
+        </form><br/>
+        
+        {{msg}}
 
       </fieldset></center>
 
