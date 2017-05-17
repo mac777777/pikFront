@@ -79,7 +79,7 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
           draggable:false,
           }
         };
-        
+        if($scope.marker2[i].date==null) $scope.marker2[i].date="[nieznana]";
       }
       
       $scope.$apply();
