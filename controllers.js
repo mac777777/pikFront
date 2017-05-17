@@ -54,7 +54,7 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
   function loadPoints() {
  
   
-   var result = $http.get("http://45.76.87.200/get/points");
+   var result = $http.get("http://localhost:8080/get/points");
     result.then(function successCallback(response) {
 
       //$scope.msgload=response;
@@ -135,7 +135,7 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
 
     
   $scope.dodaj = function() {
-    var url3="http://45.76.87.200/add/user/points?latitude="+$scope.lati+"&longitude="+$scope.long+"&name="+ $scope.nazwa+"&login="+$cookies.login+"&jsonp=JSON_CALLBACK";
+    var url3="http://localhost:8080/add/user/points?latitude="+$scope.lati+"&longitude="+$scope.long+"&name="+ $scope.nazwa+"&login="+$cookies.login+"&jsonp=JSON_CALLBACK";
         $http({
       method: 'GET',
       url: url3,
@@ -172,7 +172,7 @@ function fKontrolerZaloguj($scope,$http,$cookies,$location) {
   
   $scope.zaloguj = function() { //proba zalogowania
   
-    var url2="http://45.76.87.200/login/user?login="+$scope.login+"&passhash="+ $scope.pswd+"&jsonp=JSON_CALLBACK";
+    var url2="http://localhost:8080/login/user?login="+$scope.login+"&passhash="+ $scope.pswd+"&jsonp=JSON_CALLBACK";
 
     $http({
       method: 'GET',
@@ -203,7 +203,7 @@ function fKontrolerRejestracja($scope,$http,$cookies) {
   
     if($scope.pswd1==$scope.pswd2) {
 
-      var url="http://45.76.87.200/add/user?login="+$scope.login+"&passhash="+ $scope.pswd1;
+      var url="http://localhost:8080/add/user?login="+$scope.login+"&passhash="+ $scope.pswd1;
       var res = $http.get(url);
       res.then(function successCallback(response) {
         $scope.msg="Dodano uzytkownika. Mozesz sie teraz zalogowac.";
@@ -236,7 +236,7 @@ function fKontrolerMapa($scope,$http,$cookies,$location) {
 
   $scope.wyloguj = function() {
   
-    var url="http://45.76.87.200/logout/user?login="+$scope.login;
+    var url="http://localhost:8080/logout/user?login="+$scope.login;
     var res = $http.get(url);
     $cookies.log = 0;
     $cookies.login="";
