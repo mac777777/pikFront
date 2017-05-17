@@ -26,8 +26,8 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
   //$scope.msg="";
   $scope.msgload="";
   $scope.point="-";
-    
-  $scope.marker = [ //jakies pierwsze przykladowe punkty
+
+  /*  $scope.marker = [ //jakies pierwsze przykladowe punkty
     {
       id: 0,
       name: "Punkt0",
@@ -47,6 +47,7 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
       options: { draggable: false },
     }
   ];
+  */
   
   $scope.marker2 = [];
   
@@ -63,13 +64,15 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
         $scope.marker2[i]={
           id:response.data[i].id,
           name:response.data[i].name,
+          date:response.data[i].date,
           coords: {
             latitude: response.data[i].latitude,
             longitude: response.data[i].longitude
           },
           events: {
             click: function(marker, eventName, model) {
-              $scope.point=model.name;
+              var text=model.name + "(" + model.coords.latitude + "," + model.coords.longitude + ") - " + model.date;
+              $scope.point=text;
             }
           },
           options: {
