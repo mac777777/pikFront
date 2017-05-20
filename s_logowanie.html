@@ -3,16 +3,18 @@
     <br><br>
     <center>Logowanie:</center>
     {{zalogowany}}
+    
+    <br><center><font color='red'>{{msg}}</font></center>
 
     <form action=""><center>
-      <br><br>Login<input style="width: 500px; margin:auto;border:0px;height: 40px; text-align:center;" type="text" ng-model="login">
+      <br>Login<input style="width: 500px; margin:auto;border:0px;height: 40px; text-align:center;" type="text" ng-model="login">
       <br>Hasło: <input style="width: 500px; margin:auto;border:0px;height: 40px;text-align:center;" type="password" ng-model="pswd">
       <br><br><input style="width: 500px; border:0px;height: 40px;" type="submit" value="Ok" ng-click="zaloguj()"></center><br><br>
     </form>
     
     <center>Nie masz konta? <a href="#!rejestracja">Zarejestruj się!</a></center>
 
-    <center><font color='red'>{{msg}}</font></center>
+    
     <br><br>
     {{log}}
 

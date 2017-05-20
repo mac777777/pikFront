@@ -69,7 +69,8 @@ apka.controller('mainCtrl', function($scope, $cookies,$http) {
           },
           events: {
             click: function(marker, eventName, model) {
-              $scope.point=model.name;
+              var txt=model.name + " (" + model.coords.latitude + "," + model.coords.longitude + ")";
+              $scope.point=txt;
             }
           },
           options: {
@@ -225,12 +226,111 @@ function fKontrolerMapa($scope,$http,$cookies,$location) {
   
 
   $scope.wyloguj = function() {
-  
     var url="http://45.76.87.200/logout/user?login="+$scope.login;
     var res = $http.get(url);
     $cookies.log = 0;
     $cookies.login="";
     $location.path('zaloguj');
   }
+
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+//KONTROLER PROFILU
+/////////////////////////////////////////////////////////////////////////////////
+
+
+apka.controller('kontrolerProfil',fKontrolerProfil);
+function fKontrolerProfil($scope,$http,$cookies,$location) {
+
+
+  if($cookies.log==1) $scope.login=$cookies.login;
+  else $location.path('zaloguj');
+  
+    $scope.msg="";
+  
+  
+    $scope.marker2 = [];
+  
+  function loadPoints() {
+ 
+  
+   var result = $http.get("http://45.76.87.200/get/points"); //get/user/points
+    result.then(function successCallback(response) {
+
+      $scope.msgload=response;
+     
+      for (i = 0; i < response.data.length; i++) {
+      
+        $scope.marker2[i]={
+          id:response.data[i].id,
+          name:response.data[i].name,
+          coords: {
+            latitude: response.data[i].latitude,
+            longitude: response.data[i].longitude
+          },
+          events: {
+            click: function(marker, eventName, model) {
+              var txt=model.name + " (" + model.coords.latitude + "," + model.coords.longitude + ")";
+              $scope.point=txt;
+            }
+          },
+          options: {
+          draggable:false,
+          }
+        };
+        
+      }
+      
+      $scope.marker2.splice(i, 1);
+      
+      $scope.$apply();
+      
+    
+      }, function errorCallback(response) {
+        $scope.msgload="Problem z polaczeniem z serwerem.";
+        //$scope.msgload=response;
+      });
+    
+    }
+    
+    window.onload = loadPoints();
+  
+    $scope.usun = function(a) {
+      var url="http://45.76.87.200/delete/user/points?id="+a;
+      var res = $http.get(url);
+      res.then(function successCallback(response) {
+        $scope.msg="Usunięto punkt";
+        loadPoints();
+      
+      }, function errorCallback(response) {
+        $scope.msg="Problem z połączeniem z serwerem";
+      });
+      
+    }
+    
+    
+    $scope.usunkonto = function() {
+      var url="http://45.76.87.200/delete/user?login="+$scope.login + "&passhash=" + $scope.pass;
+      var res = $http.get(url);
+      
+      res.then(function successCallback(response) {
+      $cookies.log = 0;
+      $cookies.login="";
+      $location.path('zaloguj');
+      
+      }, function errorCallback(response) {
+        $scope.msgdelprofil="Niepoprawne hasło";
+      });
+      
+
+    
+    }
+
+
 
 }

@@ -1,0 +1,27 @@
+<div data-ng-controller="kontrolerProfil">
+
+Twój login to: {{login}}!<br>
+
+    <a href="#!mapa">Powrót do mapy</a><br><br>
+    
+    Twoje punkty:<br>
+    <div ng-repeat="m in marker2"> <!-- wypisuje ze zmiennej $scope.marker2-->
+        {{m.name}} ({{m.coords.latitude}},{{m.coords.longitude}}) <a ng-click="usun(m.id)">Usuń</a>
+    </div>
+      
+    {{msgload}}
+      
+    {{msg}}
+
+    <center><fieldset style="border:white 1px solid; width:450px"><legend>Usuń konto</legend>
+      <form action="">
+        Hasło:
+        <input style="width: 400px; margin:auto;border:0px;height: 40px; text-align:center;" type="password" ng-model="pass" /><br>
+        <input style="width: 400px; border:0px;height: 40px;" type="submit" value="Ok" ng-click="usunkonto()" /> <!-- przycisk nieaktywny dopoki geolokalizacja nie wlaczona -->
+      </form><br/>
+        
+        {{msgdelprofil}}
+
+      </fieldset></center>
+
+</div>

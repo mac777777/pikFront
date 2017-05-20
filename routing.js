@@ -16,6 +16,10 @@ apka.config(['$routeProvider', function($routeProvider) {
                 templateUrl: 's_rejestracja.html',
                 controller: 'kontrolerRejestracja'
             }, null)
+            .when('/profil', {
+                templateUrl: 's_profil.html',
+                controller: 'kontrolerProfil'
+            }, null)
             .when('/mapa', {
                 templateUrl: 's_mapa.html',
                 controller: 'kontrolerMapa'
