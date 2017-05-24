@@ -307,6 +307,7 @@ function fKontrolerProfil($scope,$http,$cookies,$location) {
     window.onload = loadPoints();
   
     $scope.usun = function(a) {
+    
       var url="http://45.76.87.200/delete/user/points?id="+a;
       var res = $http.get(url);
       res.then(function successCallback(response) {
@@ -319,23 +320,59 @@ function fKontrolerProfil($scope,$http,$cookies,$location) {
       
     }
     
-    
     $scope.usunkonto = function() {
-      var url="http://45.76.87.200/delete/user?login="+$scope.login + "&passhash=" + $scope.pass;
-      var res = $http.get(url);
+    
+      //sprawdzenie hasla!
+      var url2="http://45.76.87.200/login/user?login="+$scope.login+"&passhash="+ $scope.pass+"&jsonp=JSON_CALLBACK";
+
+      $http({
+        method: 'GET',
+        url: url2,
+        withCredentials: true
+        }).then(function successCallback(response) { //sukces
+        $scope.usunpunkty();
+        }, function errorCallback(response) { //porazka
+      });
+    
+    } //usunkonto
+    
+    $scope.usunpunkty = function() {
+      var i;
+      var res;
+      
+      //najpierw usuwamy punkty
+      for (i = 0; i < $scope.marker2.length; ++i) {
+        var url="http://45.76.87.200/delete/user/points?id="+$scope.marker2[i].id;
+        res = $http.get(url);
+      }
       
       res.then(function successCallback(response) {
+        $scope.usunsamokonto();
+      }, function errorCallback(response) { //porazka
+      
+     
+      });
+    
+    }    
+    
+    
+    $scope.usunsamokonto = function() {
+      var url="http://45.76.87.200/delete/user?login="+$scope.login + "&passhash=" + $scope.pass;
+      var res2 = $http.get(url);
+      
+      res2.then(function successCallback(response) {
       $cookies.log = 0;
       $cookies.login="";
       $location.path('zaloguj');
       
       }, function errorCallback(response) {
-        $scope.msgdelprofil="Blad. Upewnij sie, czy wpisales dobre haslo i usunales wszystkie swoje punkty oraz czy masz polaczenie z internetem!";
+        $scope.msgdelprofil="Blad. Upewnij sie, czy masz polaczenie z internetem!";
       });
-      
-
-    
+        
     }
+    
+        
+
 
 
 
