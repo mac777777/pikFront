@@ -332,6 +332,7 @@ function fKontrolerProfil($scope,$http,$cookies,$location) {
         }).then(function successCallback(response) { //sukces
         $scope.usunpunkty();
         }, function errorCallback(response) { //porazka
+        $scope.msgdelprofil="Niepoprawne haslo!";
       });
     
     } //usunkonto
