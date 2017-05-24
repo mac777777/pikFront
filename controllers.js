@@ -298,8 +298,8 @@ function fKontrolerProfil($scope,$http,$cookies,$location) {
       
     
       }, function errorCallback(response) {
-        //$scope.msgload="Problem z polaczeniem z serwerem.";
-        $scope.msgload=response;
+        $scope.msgload="Problem z polaczeniem z serwerem.";
+        //$scope.msgload=response;
       });
     
     }
