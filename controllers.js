@@ -264,8 +264,9 @@ function fKontrolerProfil($scope,$http,$cookies,$location) {
   
   function loadPoints() {
  
+  var url="http://45.76.87.200/get/user/points?login="+$scope.login;
   
-   var result = $http.get("http://45.76.87.200/get/user/points"); //get/user/points
+   var result = $http.get(url); //get/user/points
     result.then(function successCallback(response) {
 
       //$scope.msgload=response;
@@ -308,8 +309,8 @@ function fKontrolerProfil($scope,$http,$cookies,$location) {
   
     $scope.usun = function(a) {
     
-      var url="http://45.76.87.200/delete/user/points?id="+a;
-      var res = $http.get(url);
+      var urla="http://45.76.87.200/delete/user/points?id="+a;
+      var res = $http.get(urla);
       res.then(function successCallback(response) {
         $scope.msg="Usunięto punkt";
         loadPoints();
