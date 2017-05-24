@@ -330,7 +330,7 @@ function fKontrolerProfil($scope,$http,$cookies,$location) {
       $location.path('zaloguj');
       
       }, function errorCallback(response) {
-        $scope.msgdelprofil="Blad";
+        $scope.msgdelprofil="Blad. Upewnij sie, czy wpisales dobre haslo i usunales wszystkie swoje punkty oraz czy masz polaczenie z internetem!";
       });
       
 
